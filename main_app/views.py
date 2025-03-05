@@ -14,7 +14,7 @@ class Home(LoginView):
 
 @login_required
 def media_index(request):
-    media = Media.objects.all() 
+    media = Media.objects.filter(user=request.user)
     return render(request, 'media/index.html', {'media': media})
 
 @login_required
