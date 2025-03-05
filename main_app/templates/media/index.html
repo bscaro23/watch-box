@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/media/media-index.css' %}"/>
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+  <h1>Your WatchBox</h1>
+</section>
+
+{% if media %}
+  <section class="card-container">
+    {% for media in media %}
+      <div class="card">
+        <a href="{% url 'media-detail' media.id %}">
+          <div class="card-content">
+            <div class="card-img-container">
+              <img src="{% static 'images/' %}" alt=""/>
+            </div>
+            <h2 class="card-title">{{ media.title }}</h2>
+            <p>A {{ media.type }} which you can watch on {{ media.location }}</p>
+
+            {% if media.is_viewed %}
+              {% if media.rating %}
+                <p>You have watched this and rated it {{ media.rating }} stars</p>
+              {% else %}
+                <p>You have watched this but haven't rated it yet.</p>
+              {% endif %}
+            {% else %}
+              <p>You've not watched this yet!</p>
+            {% endif %}
+          </div>
+        </a>
+      </div>
+    {% endfor %}
+  </section>
+{% else %}
+  <section class="empty-watchbox">
+    <p>Your WatchBox is currently empty! Add to it today to get started.</p>
+  </section>
+{% endif %}
+
+{% endblock %}
