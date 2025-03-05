@@ -19,6 +19,11 @@ RATING_CHOICES = (
 
 class Media(models.Model):
     title = models.CharField(max_length=255)
+    year = models.CharField(max_length=10, blank=True, null=True)
+    genre = models.CharField(max_length=255, blank=True, null=True)
+    director = models.CharField(max_length=255, blank=True, null=True)
+    plot = models.TextField(blank=True, null=True)
+    poster = models.URLField(blank=True, null=True)
     location = models.CharField(max_length=255)
     type = models.CharField(
         max_length=10,
@@ -35,4 +40,3 @@ class Media(models.Model):
 
     def __str__(self):
         return f"{self.title} ({'Viewed' if self.is_viewed else 'Not Viewed'})"
-    
