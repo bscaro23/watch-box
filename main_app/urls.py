@@ -12,4 +12,6 @@ urlpatterns = [
     path('media/<int:pk>/delete/', views.MediaDelete.as_view(), name='media-delete'),
     path('media/create/', views.MediaCreate.as_view(), name='media-create'),
     path('media/<int:media_id>/review/', views.add_review, name='add-review'),
+    path('media/<int:media_id>/watchlist/', views.toggle_watchlist, name='toggle-watchlist'),
+
 ]
