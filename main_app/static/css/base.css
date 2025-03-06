@@ -87,6 +87,11 @@ nav li {
   padding: 5px 8px;
 }
 
+p {
+  font-weight: 600;
+  font-size: 16px;
+}
+
 .header-logo-container {
   margin: auto;
   padding: 10px 20px 0;

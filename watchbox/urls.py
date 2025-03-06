@@ -23,7 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main_app.urls')),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    # include the built-in auth urls for the built-in views
     path('accounts/', include('django.contrib.auth.urls')),
 
 ]

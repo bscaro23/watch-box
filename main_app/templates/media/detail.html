@@ -1,66 +1,56 @@
 {% extends 'base.html' %} 
 {% load static %} 
+
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/media/media-detail.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/media/media-detail.css' %}" />
 {% endblock %} 
+
 {% block content %}
 <section class="media-container">
   <div class="media-img">
     <img src="{{ media.poster }}" alt="{{ media.title }} poster"/>
   </div>
-  <div class="media-details">
-    <h1>{{ media.title }}</h1>
-    <p>A {{ media.type }} which you can watch on {{ media.location }}</p>
-          {% if media.is_viewed == true %}
-          <p>You have watched this and rated it {{ media.rating }}</p>
-          {% else %}
-          <p>You've not watched this yet!</p>
-          {% endif %}
-  </div>
-  
 
-  <h3>Add a Review</h3>
-  <form action="{% url 'add-review' media.id %}"method="post" class="subsection-content" autocomplete="off">
-    {% csrf_token %} 
+  <div class="media-details">
+    <h2>{{ media.title }}</h2>
+    <h1>A {{ media.type }} which you can watch on {{ media.location }}</h1>
+
+    {% if media.is_viewed %}
+      <h1>You have watched this!</h1>
+    {% else %}
+      <h1>You've not watched this yet!</h1>
+    {% endif %}
+  </div>
+
+  <div class="media-actions">
+    <a href="{% url 'media-update' media.id %}" class="btn warn">Edit</a>
+    <a href="{% url 'media-delete' media.id %}" class="btn danger">Delete</a>
+  </div>
+
+  <h1>Add a Review</h1>
+  <form action="{% url 'add-review' media.id %}" method="post" class="subsection-content" autocomplete="off">
+    {% csrf_token %}
     {{ review_form.as_p }}
     <button type="submit" class="btn submit">Add Review</button>
-  </form>
-
-  <table>
-    <thead>
-      <tr>
-        <th>User</th>
-        <th>Rating</th>
-        <th>Review</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for review in media.review_set.all %}
+    <table>
+      <thead>
         <tr>
-          <td>{{review.user}}</td>
-          <td>{{review.rating}}</td>
-          <td>{{review.text}}</td>
+          <th>Rating</th>
+          <th>Review</th>
+          <th>User</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-
-  {% if media in profile.watchlist.all %}
-    <a href="{% url 'toggle-watchlist' media.id %}">
-        Remove From Watchlist
-    </a>
-  {% else %}
-    <a href="{% url 'toggle-watchlist' media.id %}">
-        Add To Watchlist
-    </a>
-  {% endif %}
-
-  
-  {% if media.user == request.user %}
-    <div class="media-actions">
-      <a href="{% url 'media-update' media.id %}" class="btn warn">Edit</a>
-      <a href="{% url 'media-delete' media.id %}" class="btn danger">Delete</a>
-    </div>
-  {% endif %}
+      </thead>
+      <tbody>
+        {% for review in reviews %}
+          <tr>
+            <td>{{ review.rating }}</td>
+            <td>{{ review.text }}</td>
+            <td>{{ review.user }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </form>
+=======
 </section>
 {% endblock %}

@@ -21,16 +21,6 @@
             </div>
             <h2 class="card-title">{{ media.title }}</h2>
             <p>A {{ media.type }} which you can watch on {{ media.location }}</p>
-
-            {% if media.is_viewed %}
-              {% if media.rating %}
-                <p>You have watched this and rated it {{ media.rating }} stars</p>
-              {% else %}
-                <p>You have watched this but haven't rated it yet.</p>
-              {% endif %}
-            {% else %}
-              <p>You've not watched this yet!</p>
-            {% endif %}
           </div>
         </a>
       </div>

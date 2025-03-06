@@ -19,21 +19,28 @@ def about(request):
 
 @login_required
 def media_index(request):
-    media = Media.objects.all()
+    media = Media.objects.filter(user=request.user) 
     return render(request, 'media/index.html', {'media': media})
 
 @login_required
 def media_detail(request, media_id):
     media = Media.objects.get(id=media_id)
-    profile = Profile.objects.get(user = request.user.id)
+    related_media = Media.objects.filter(imdbID=media.imdbID)
+    reviews = Review.objects.filter(media__in=related_media)
+    
     review_form = ReviewForm()
+
+
     return render(request, 'media/detail.html', {
-        'media': media, 'review_form': review_form, 'profile': profile,
-        })
+        'media': media,
+        'review_form': review_form,
+        'reviews': reviews  
+    })
+
 
 class MediaCreate(LoginRequiredMixin, CreateView):
     model = Media
-    fields = ['title', 'year', 'imdbID']
+    fields = ['title', 'year', 'location', 'is_viewed']
 
     def form_valid(self, form):
         
@@ -57,15 +64,8 @@ class MediaCreate(LoginRequiredMixin, CreateView):
         form.instance.director = data.get('Director', '')
         form.instance.plot = data.get('Plot', '')
         form.instance.poster = data.get('Poster', '')
-        form.instance.location = 'Some location' 
         form.instance.type = data.get('Type')  
-        form.instance.is_viewed = False  
-        form.instance.rating = None 
         form.instance.user = self.request.user  
-
-        if Media.objects.filter(imdbID = form.instance.imdbID).exists():
-            form.add_error(None, 'This already exists!')
-            return self.form_invalid(form)
 
         return super().form_valid(form)
 
@@ -73,7 +73,10 @@ class MediaCreate(LoginRequiredMixin, CreateView):
 
 class MediaUpdate(LoginRequiredMixin, UpdateView):
     model = Media
-    fields = ['location', 'is_viewed', 'rating']
+    fields = ['location', 'is_viewed']
+
+    def form_valid(self, form):
+        return super().form_valid(form)
 
 class MediaDelete(LoginRequiredMixin, DeleteView):
     model = Media
@@ -93,16 +96,6 @@ def add_review(request, media_id):
     else:
         form = ReviewForm()
     return render(request, 'media/review_form.html', {'form': form, 'media': media})
-
-@login_required
-def toggle_watchlist(request, media_id):
-    media = Media.objects.get(id=media_id)
-    profile = Profile.objects.get(user=request.user.id)
-    if media_id in profile.watchlist.all():
-        profile.watchlist.remove(media)
-    else:
-        profile.watchlist.add(media)
-    return redirect('media-detail', media_id=media.id)
 
 def signup(request):
     error_message = ''
