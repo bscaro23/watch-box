@@ -1,12 +1,13 @@
 from django.shortcuts import render,redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Media
+from .models import Media, Review
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .utils import search_film
+from .forms import ReviewForm
 
 
 
@@ -18,13 +19,16 @@ def about(request):
 
 @login_required
 def media_index(request):
-    media = Media.objects.filter(user=request.user)
+    media = Media.objects.all()
     return render(request, 'media/index.html', {'media': media})
 
 @login_required
 def media_detail(request, media_id):
     media = Media.objects.get(id=media_id)
-    return render(request, 'media/detail.html', {'media': media})
+    review_form = ReviewForm()
+    return render(request, 'media/detail.html', {
+        'media': media, 'review_form': review_form
+        })
 
 class MediaCreate(LoginRequiredMixin, CreateView):
     model = Media
@@ -53,13 +57,14 @@ class MediaCreate(LoginRequiredMixin, CreateView):
         form.instance.plot = data.get('Plot', '')
         form.instance.poster = data.get('Poster', '')
         form.instance.location = 'Some location' 
-        form.instance.type = 'Film'  
+        form.instance.type = data.get('Type')  
         form.instance.is_viewed = False  
         form.instance.rating = None 
         form.instance.user = self.request.user  
 
-        
-        form.save()
+        if Media.objects.filter(imdbID = form.instance.imdbID).exists():
+            form.add_error(None, 'This already exists!')
+            return self.form_invalid(form)
 
         return super().form_valid(form)
 
@@ -72,6 +77,22 @@ class MediaUpdate(LoginRequiredMixin, UpdateView):
 class MediaDelete(LoginRequiredMixin, DeleteView):
     model = Media
     success_url = '/media/'
+
+@login_required
+def add_review(request, media_id):
+    media = Media.objects.get(id=media_id)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.media = media
+            review.save()
+            return redirect('media-detail', media_id=media.id)
+    else:
+        form = ReviewForm()
+    return render(request, 'media/review_form.html', {'form': form, 'media': media})
+
 
 def signup(request):
     error_message = ''
