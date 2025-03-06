@@ -47,13 +47,6 @@ class Media(models.Model):
     def get_absolute_url(self):
         return reverse('media-detail', kwargs={'media_id': self.id})
     
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    watchlist = models.ManyToManyField(Media, blank=True)
-
-    def __str__(self):
-        return f"{self.user.username}'s Profile"
-
 class Review(models.Model):
     text = models.TextField(blank=True, null=True)
     rating = models.IntegerField(
