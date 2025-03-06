@@ -29,24 +29,38 @@
   <table>
     <thead>
       <tr>
-        <th>Date</th>
-        <th>Meal</th>
+        <th>User</th>
+        <th>Rating</th>
+        <th>Review</th>
       </tr>
     </thead>
     <tbody>
       {% for review in media.review_set.all %}
         <tr>
+          <td>{{review.user}}</td>
           <td>{{review.rating}}</td>
           <td>{{review.text}}</td>
-          <td>{{review.user}}</td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
 
-  <div class="media-actions">
-    <a href="{% url 'media-update' media.id %}" class="btn warn">Edit</a>
-    <a href="{% url 'media-delete' media.id %}" class="btn danger">Delete</a>
-  </div>
+  {% if media in profile.watchlist.all %}
+    <a href="{% url 'toggle-watchlist' media.id %}">
+        Remove From Watchlist
+    </a>
+  {% else %}
+    <a href="{% url 'toggle-watchlist' media.id %}">
+        Add To Watchlist
+    </a>
+  {% endif %}
+
+  
+  {% if media.user == request.user %}
+    <div class="media-actions">
+      <a href="{% url 'media-update' media.id %}" class="btn warn">Edit</a>
+      <a href="{% url 'media-delete' media.id %}" class="btn danger">Delete</a>
+    </div>
+  {% endif %}
 </section>
 {% endblock %}

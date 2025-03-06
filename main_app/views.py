@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Media, Review
+from .models import Media, Review, Profile
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
@@ -25,9 +25,10 @@ def media_index(request):
 @login_required
 def media_detail(request, media_id):
     media = Media.objects.get(id=media_id)
+    profile = Profile.objects.get(user = request.user.id)
     review_form = ReviewForm()
     return render(request, 'media/detail.html', {
-        'media': media, 'review_form': review_form
+        'media': media, 'review_form': review_form, 'profile': profile,
         })
 
 class MediaCreate(LoginRequiredMixin, CreateView):
@@ -93,6 +94,15 @@ def add_review(request, media_id):
         form = ReviewForm()
     return render(request, 'media/review_form.html', {'form': form, 'media': media})
 
+@login_required
+def toggle_watchlist(request, media_id):
+    media = Media.objects.get(id=media_id)
+    profile = Profile.objects.get(user=request.user.id)
+    if media_id in profile.watchlist.all():
+        profile.watchlist.remove(media)
+    else:
+        profile.watchlist.add(media)
+    return redirect('media-detail', media_id=media.id)
 
 def signup(request):
     error_message = ''
@@ -100,6 +110,7 @@ def signup(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            Profile.objects.create(user=user)
             login(request, user)
             return redirect('home')
         else:
