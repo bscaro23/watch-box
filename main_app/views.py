@@ -28,20 +28,19 @@ class MediaCreate(LoginRequiredMixin, CreateView):
     fields = ['title', 'year', 'imdbID']
 
     def form_valid(self, form):
-        # Get the cleaned data from the form
+        
         title = form.cleaned_data.get('title')
         year = form.cleaned_data.get('year')
         imdb_id = form.cleaned_data.get('imdbID')
 
-        # Call the API to get movie data
+        
         api_response = search_film(title=title, imdb_id=imdb_id, year=year)
 
-        # Check if the API call was successful
         if 'error' in api_response:
-            form.add_error(None, api_response['error'])  # Add error to form if something went wrong
+            form.add_error(None, api_response['error'])  
             return self.form_invalid(form)
 
-        # Populate the form data with API response
+        
         data = api_response
         form.instance.title = data.get('Title', title)
         form.instance.year = data.get('Year', year)
@@ -50,13 +49,13 @@ class MediaCreate(LoginRequiredMixin, CreateView):
         form.instance.director = data.get('Director', '')
         form.instance.plot = data.get('Plot', '')
         form.instance.poster = data.get('Poster', '')
-        form.instance.location = 'Some location'  # You can adjust this as needed
-        form.instance.type = 'Film'  # You can change this to 'TV Show' if needed
-        form.instance.is_viewed = False  # Default value
-        form.instance.rating = None  # Default value
-        form.instance.user = self.request.user  # Assign the current user
+        form.instance.location = 'Some location' 
+        form.instance.type = 'Film'  
+        form.instance.is_viewed = False  
+        form.instance.rating = None 
+        form.instance.user = self.request.user  
 
-        # Save the Media object
+        
         form.save()
 
         return super().form_valid(form)
