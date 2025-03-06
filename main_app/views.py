@@ -13,6 +13,9 @@ from .utils import search_film
 class Home(LoginView):
     template_name = 'home.html'
 
+def about(request):
+    return render(request, 'about.html')
+
 @login_required
 def media_index(request):
     media = Media.objects.filter(user=request.user)
