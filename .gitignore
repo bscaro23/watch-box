@@ -1,1 +1,29 @@
+# Ignore Python cache files
+*.pyc
+__pycache__/
+# Ignore SQLite database
+*.sqlite3
+# Ignore environment variables and settings
 .env
+# Ignore logs and backups
+*.log
+*.bak
+# Ignore virtual environments
+venv/
+.env/
+# Ignore Django migrations cache
+*.pyc
+migrations/**/__pycache__/
+# Ignore static files
+static/
+# Ignore IDE and editor settings
+.vscode/
+.idea/
+# Ignore testing and coverage reports
+.tox/
+.coverage
+htmlcov/
+.pytest_cache/
+# Ignore deployment files
+*.tar.gz
+*.zip

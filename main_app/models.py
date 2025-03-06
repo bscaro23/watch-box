@@ -58,5 +58,5 @@ class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.user} rated {self.movie} {self.rating}/5"
+        return f"{self.user} rated {self.media.title} {self.rating}/5"
     
