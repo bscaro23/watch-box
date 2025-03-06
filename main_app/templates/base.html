@@ -23,6 +23,8 @@
         <ul>
           {% if user.is_authenticated %}
             <!-- todo logged in -->
+            <li><a href="{% url 'media-index' %}">All Media</a></li>
+            <li><a href="{% url 'media-create' %}">Add a Media</a></li>
             <li>
               <form id="logout-form" method="post" action="{% url 'logout' %}">
                 {% csrf_token %}

@@ -6,6 +6,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .utils import search_film
 
 
 
@@ -22,6 +23,45 @@ def media_detail(request, media_id):
     media = Media.objects.get(id=media_id)
     return render(request, 'media/detail.html', {'media': media})
 
+class MediaCreate(LoginRequiredMixin, CreateView):
+    model = Media
+    fields = ['title', 'year', 'imdbID']
+
+    def form_valid(self, form):
+        # Get the cleaned data from the form
+        title = form.cleaned_data.get('title')
+        year = form.cleaned_data.get('year')
+        imdb_id = form.cleaned_data.get('imdbID')
+
+        # Call the API to get movie data
+        api_response = search_film(title=title, imdb_id=imdb_id, year=year)
+
+        # Check if the API call was successful
+        if 'error' in api_response:
+            form.add_error(None, api_response['error'])  # Add error to form if something went wrong
+            return self.form_invalid(form)
+
+        # Populate the form data with API response
+        data = api_response
+        form.instance.title = data.get('Title', title)
+        form.instance.year = data.get('Year', year)
+        form.instance.imdbID = data.get('imdbID', imdb_id)
+        form.instance.genre = data.get('Genre', '')
+        form.instance.director = data.get('Director', '')
+        form.instance.plot = data.get('Plot', '')
+        form.instance.poster = data.get('Poster', '')
+        form.instance.location = 'Some location'  # You can adjust this as needed
+        form.instance.type = 'Film'  # You can change this to 'TV Show' if needed
+        form.instance.is_viewed = False  # Default value
+        form.instance.rating = None  # Default value
+        form.instance.user = self.request.user  # Assign the current user
+
+        # Save the Media object
+        form.save()
+
+        return super().form_valid(form)
+
+    
 
 class MediaUpdate(LoginRequiredMixin, UpdateView):
     model = Media

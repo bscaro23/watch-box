@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 
@@ -18,7 +19,8 @@ RATING_CHOICES = (
 
 
 class Media(models.Model):
-    title = models.CharField(max_length=255)
+    imdbID = models.CharField(max_length=100, blank=True, null=True)  
+    title = models.CharField(max_length=255, blank=True, null=True)  
     year = models.CharField(max_length=10, blank=True, null=True)
     genre = models.CharField(max_length=255, blank=True, null=True)
     director = models.CharField(max_length=255, blank=True, null=True)
@@ -40,3 +42,6 @@ class Media(models.Model):
 
     def __str__(self):
         return f"{self.title} ({'Viewed' if self.is_viewed else 'Not Viewed'})"
+    
+    def get_absolute_url(self):
+        return reverse('media-detail', kwargs={'media_id': self.id})
