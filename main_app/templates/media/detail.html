@@ -6,7 +6,7 @@
 {% block content %}
 <section class="media-container">
   <div class="media-img">
-    <img src="{% static '' %}" alt="" />
+    <img src="{{ media.poster }}" alt="{{ media.title }} poster"/>
   </div>
   <div class="media-details">
     <h1>{{ media.title }}</h1>

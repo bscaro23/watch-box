@@ -67,7 +67,7 @@ class MediaCreate(LoginRequiredMixin, CreateView):
 
 class MediaUpdate(LoginRequiredMixin, UpdateView):
     model = Media
-    fields = '__all__'
+    fields = ['location', 'is_viewed', 'rating']
 
 class MediaDelete(LoginRequiredMixin, DeleteView):
     model = Media
