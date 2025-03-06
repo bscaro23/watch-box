@@ -111,5 +111,18 @@ def signup(request):
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'signup.html', context)
-  
+
+@login_required
+def toggle_watchlist(request, media_id):
+    media = Media.objects.get(id=media_id)
+    profile = Profile.objects.get(user=request.user)
+    
+    if media in profile.watchlist.all():
+        profile.watchlist.remove(media)
+    else:
+        profile.watchlist.add(media)
+    
+    return redirect('media-detail', media_id=media_id)
+
+
 
