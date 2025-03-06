@@ -6,6 +6,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .utils import search_film
 
 
 
@@ -25,6 +26,44 @@ def media_detail(request, media_id):
     media = Media.objects.get(id=media_id)
     return render(request, 'media/detail.html', {'media': media})
 
+class MediaCreate(LoginRequiredMixin, CreateView):
+    model = Media
+    fields = ['title', 'year', 'imdbID']
+
+    def form_valid(self, form):
+        
+        title = form.cleaned_data.get('title')
+        year = form.cleaned_data.get('year')
+        imdb_id = form.cleaned_data.get('imdbID')
+
+        
+        api_response = search_film(title=title, imdb_id=imdb_id, year=year)
+
+        if 'error' in api_response:
+            form.add_error(None, api_response['error'])  
+            return self.form_invalid(form)
+
+        
+        data = api_response
+        form.instance.title = data.get('Title', title)
+        form.instance.year = data.get('Year', year)
+        form.instance.imdbID = data.get('imdbID', imdb_id)
+        form.instance.genre = data.get('Genre', '')
+        form.instance.director = data.get('Director', '')
+        form.instance.plot = data.get('Plot', '')
+        form.instance.poster = data.get('Poster', '')
+        form.instance.location = 'Some location' 
+        form.instance.type = 'Film'  
+        form.instance.is_viewed = False  
+        form.instance.rating = None 
+        form.instance.user = self.request.user  
+
+        
+        form.save()
+
+        return super().form_valid(form)
+
+    
 
 class MediaUpdate(LoginRequiredMixin, UpdateView):
     model = Media
