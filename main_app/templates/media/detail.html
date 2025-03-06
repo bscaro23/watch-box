@@ -43,8 +43,8 @@
       <tbody>
         {% for review in reviews %}
           <tr>
-            <td>{% if review.rating %}{{ review.get_rating_display }}{% else %}No rating provided{% endif %}</td>
-            <td>{% if review.text %}{{ review.text }}{% else %}No review provided{% endif %}</td>
+            <td>{% if review.rating %}{{ review.get_rating_display }}{% else %}Not yet{% endif %}</td>
+            <td>{% if review.text %}{{ review.text }}{% else %}Not provided{% endif %}</td>
             <td>{{ review.user }}</td>
           </tr>
         {% endfor %}

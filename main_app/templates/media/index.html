@@ -1,3 +1,4 @@
+<!-- watch-box/main_app/templates/media/index.html -->
 {% extends 'base.html' %}
 {% load static %}
 {% block head %}
@@ -11,21 +12,32 @@
 </section>
 
 {% if media %}
-  <section class="card-container">
-    {% for media in media %}
-      <div class="card">
-        <a href="{% url 'media-detail' media.id %}">
-          <div class="card-content">
-            <div class="card-img-container">
-              <img src="{{ media.poster }}" alt="{{ media.title }} poster"/>
-            </div>
-            <h2 class="card-title">{{ media.title }}</h2>
-            <p>A {{ media.type }} which you can watch on {{ media.location }}</p>
-          </div>
-        </a>
-      </div>
-    {% endfor %}
-  </section>
+<section class="card-container">
+  {% for media in media %}
+    <div class="card">
+      <a href="{% url 'media-detail' media.id %}">
+        <div class="card-img-container">
+          <img src="{{ media.poster|default_if_none:'/static/img/default-poster.png' }}" alt="{{ media.title }} poster"/>
+        </div>
+        <div class="card-content">
+          <h2 class="card-title">{{ media.title }}</h2>
+          <p>{{ media.year }} | {{ media.genre }}</p>
+          <p>A {{ media.type }} which you can watch on {{ media.location }}</p>
+          <p>
+            {% if media.rating %}
+              Rating: {{ media.get_rating_display }}
+            {% else %}
+              No rating provided
+            {% endif %}
+          </p>
+          <span class="view-status {% if media.is_viewed %}watched{% else %}unwatched{% endif %}">
+            {% if media.is_viewed %}✅ Watched{% else %}❌ Not Watched{% endif %}
+          </span>
+        </div>
+      </a>
+    </div>
+  {% endfor %}
+</section>
 {% else %}
   <section class="empty-watchbox">
     <p>Your WatchBox is currently empty! Add to it today to get started.</p>

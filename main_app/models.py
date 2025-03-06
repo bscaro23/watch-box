@@ -3,8 +3,6 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 
-
-
 TYPES = (
     ('Film', 'Film'),
     ('TV Show', 'TV Show')
@@ -17,7 +15,6 @@ RATING_CHOICES = (
     (4, '4 - Very Good'),
     (5, '5 - Excellent'),
 )
-
 
 class Media(models.Model):
     imdbID = models.CharField(max_length=100, blank=True, null=True)  
