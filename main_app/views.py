@@ -86,6 +86,9 @@ class MediaDelete(LoginRequiredMixin, DeleteView):
 def add_review(request, media_id):
     media = Media.objects.get(id=media_id)
     if request.method == 'POST':
+        if not request.POST.get('rating') and not request.POST.get('text').strip():
+            return redirect('media-detail', media_id=media.id)
+
         form = ReviewForm(request.POST)
         if form.is_valid():
             review = form.save(commit=False)
