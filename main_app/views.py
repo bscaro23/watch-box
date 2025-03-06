@@ -30,7 +30,6 @@ def media_detail(request, media_id):
     
     review_form = ReviewForm()
 
-
     return render(request, 'media/detail.html', {
         'media': media,
         'review_form': review_form,
@@ -40,7 +39,7 @@ def media_detail(request, media_id):
 
 class MediaCreate(LoginRequiredMixin, CreateView):
     model = Media
-    fields = ['title', 'year', 'location', 'is_viewed']
+    fields = ['type','title', 'year', 'location', 'is_viewed']
 
     def form_valid(self, form):
         
@@ -125,6 +124,5 @@ def toggle_watchlist(request, media_id):
         profile.watchlist.add(media)
     
     return redirect('media-detail', media_id=media_id)
-
 
 
