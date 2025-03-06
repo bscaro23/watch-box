@@ -17,7 +17,7 @@
         <a href="{% url 'media-detail' media.id %}">
           <div class="card-content">
             <div class="card-img-container">
-              <img src="{% static 'images/' %}" alt=""/>
+              <img src="{{ media.poster }}" alt="{{ media.title }} poster"/>
             </div>
             <h2 class="card-title">{{ media.title }}</h2>
             <p>A {{ media.type }} which you can watch on {{ media.location }}</p>
