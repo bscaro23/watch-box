@@ -10,5 +10,6 @@ urlpatterns = [
     path('media/<int:media_id>/', views.media_detail, name='media-detail'),
     path('media/<int:pk>/update/', views.MediaUpdate.as_view(), name='media-update'),
     path('media/<int:pk>/delete/', views.MediaDelete.as_view(), name='media-delete'),
-    path('media/create/', views.MediaCreate.as_view(), name='media-create')
+    path('media/create/', views.MediaCreate.as_view(), name='media-create'),
+    path('media/<int:media_id>/review/', views.add_review, name='add-review'),
 ]

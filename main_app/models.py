@@ -4,6 +4,7 @@ from django.urls import reverse
 
 
 
+
 TYPES = (
     ('Film', 'Film'),
     ('TV Show', 'TV Show')
@@ -45,3 +46,17 @@ class Media(models.Model):
     
     def get_absolute_url(self):
         return reverse('media-detail', kwargs={'media_id': self.id})
+
+class Review(models.Model):
+    text = models.TextField(blank=True, null=True)
+    rating = models.IntegerField(
+        choices=RATING_CHOICES, 
+        blank=True, 
+        null=True 
+    )
+    media = models.ForeignKey(Media, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user} rated {self.movie} {self.rating}/5"
+    
