@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Media, Review
+from .models import Media, Review, Profile
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
@@ -27,7 +27,7 @@ def media_detail(request, media_id):
     media = Media.objects.get(id=media_id)
     related_media = Media.objects.filter(imdbID=media.imdbID)
     reviews = Review.objects.filter(media__in=related_media)
-
+    
     review_form = ReviewForm()
 
 
@@ -76,7 +76,6 @@ class MediaUpdate(LoginRequiredMixin, UpdateView):
     fields = ['location', 'is_viewed']
 
     def form_valid(self, form):
-        # Handle saving the updated form
         return super().form_valid(form)
 
 class MediaDelete(LoginRequiredMixin, DeleteView):
@@ -98,13 +97,13 @@ def add_review(request, media_id):
         form = ReviewForm()
     return render(request, 'media/review_form.html', {'form': form, 'media': media})
 
-
 def signup(request):
     error_message = ''
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            Profile.objects.create(user=user)
             login(request, user)
             return redirect('home')
         else:
