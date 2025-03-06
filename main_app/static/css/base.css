@@ -1,21 +1,12 @@
-/* static/css/base.css  */
-
 html {
   box-sizing: border-box;
 }
-
-/* The Universal Selector */
-*, /* All elements*/
-*::before, /* All ::before pseudo-elements */
+*, 
+*::before,
 *::after {
-  /* All ::after pseudo-elements */
-  /* height & width will now include border & padding by default
-     but can be over-ridden as needed */
   box-sizing: inherit;
 }
 
-/* resets font size to be 62.5% of the user preference - 
-     in most browser configurations this will be 10px */
 :root {
   font-size: 62.5%;
 }
@@ -51,7 +42,7 @@ body {
 
 header {
   width: 100%;
-  background: var(--nav-bg-ff); /* rgba(104, 197, 248, .9) */
+  background: var(--nav-bg-ff); 
   border-bottom: var(--borders);
 }
 
@@ -184,11 +175,6 @@ nav li {
     padding: 0 15px;
   }
 
-  /* visual fix to help align logo */
-  .header-logo-container {
-    padding-top: 3px;
-  }
-
   nav {
     margin-left: auto;
     display: flex;
@@ -201,6 +187,7 @@ nav li {
 
   .header-logo-container {
     width: 213px;
+    padding-top: 3px;
   }
 
   .page-header h1 {
@@ -252,7 +239,6 @@ nav li {
   }
 
   .header-logo-container {
-    /* visual fix to help align logo */
     padding-top: 6px;
     width: 256px;
     height: 35px;
@@ -272,7 +258,6 @@ nav li {
     }
   }
 }
-
 
   .card-container {
     padding: 0 30px;

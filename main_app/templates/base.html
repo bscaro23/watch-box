@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'css/base.css' %}" />
-    <title>Watchbox</title>
+    <title>WatchBox</title>
     {% block head %} 
     {% endblock %}
   </head>
@@ -15,14 +15,15 @@
     <header>
       <div class="header-logo-container">
         <a href="/">
-            <!-- Todo add a logo to get back to the home page -->
-          <img src="" alt="The Watchbox Logo" />  
+          <img src= "" alt="The Watchbox Logo" />  
         </a>
       </div>
       <nav>
         <ul>
           {% if user.is_authenticated %}
-            <!-- todo logged in -->
+          <li><a href="{% url 'media-index' %}">Your Watchbox</a></li>
+          <li><a href="">Add to Watchbox</a></li>
+          <li><a href="{% url 'about' %}">About</a></li>
             <li>
               <form id="logout-form" method="post" action="{% url 'logout' %}">
                 {% csrf_token %}
@@ -30,7 +31,7 @@
               </form>
             </li>
           {% else %}
-            <!-- todo logged out -->
+            <li><a href="{% url 'about' %}">About</a></li>
             <li><a href="{% url 'signup' %}">Sign Up</a></li>
           {% endif %}
         </ul>
