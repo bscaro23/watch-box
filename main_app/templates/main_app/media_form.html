@@ -1,12 +1,15 @@
+<!-- /templates/main_app/mdedia_form -->
+
 {% extends 'base.html' %} 
 {% load static %} 
-{% block head %}
-<link rel="stylesheet" href="{% static 'css/form.css' %}" />
-{% endblock %} 
-{% block content %}
 
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/media/media-create.css' %}" />
+{% endblock %} 
+
+{% block content %}
 <div class="page-header">
-  <h1>Add Media</h1>
+  <h1>Add Show or Movie to Keep Track of Your Memories</h1>
 </div>
 
 <form action="" method="post" class="form-container">
@@ -16,5 +19,4 @@
   </table>
   <button type="submit" class="btn submit">Submit!</button>
 </form>
-
 {% endblock %}
