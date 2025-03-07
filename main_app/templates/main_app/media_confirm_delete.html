@@ -4,7 +4,7 @@
 
 <div class="page-header">
   <h1>Delete {{media.title}}?</h1>
-  <img src="{% static 'images/' %}" alt="" />
+  <img src="{{ media.poster }}" alt="{{ media.title }} poster"/>
 </div>
 
 <h2>Are you sure you want to delete {{ media.title }}?</h2>
