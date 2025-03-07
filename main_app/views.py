@@ -1,3 +1,5 @@
+# /views.py
+
 from django.shortcuts import render,redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Media, Review
@@ -72,7 +74,7 @@ class MediaCreate(LoginRequiredMixin, CreateView):
 
 class MediaUpdate(LoginRequiredMixin, UpdateView):
     model = Media
-    fields = ['location', 'is_viewed']
+    fields = ['location', 'rating', 'is_viewed']
 
     def form_valid(self, form):
         return super().form_valid(form)

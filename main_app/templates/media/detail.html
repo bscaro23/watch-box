@@ -1,8 +1,10 @@
+<!-- /templates/media/detail.html -->
+
 {% extends 'base.html' %} 
 {% load static %} 
 
 {% block head %}
-  <link rel="stylesheet" href="{% static 'css/media/media-detail.css' %}" />
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
 {% endblock %} 
 
 {% block content %}
@@ -21,16 +23,17 @@
       <h1>You've not watched this yet!</h1>
     {% endif %}
   </div>
-
+<br>
   <div class="media-actions">
     <a href="{% url 'media-update' media.id %}" class="btn warn">Edit</a>
     <a href="{% url 'media-delete' media.id %}" class="btn danger">Delete</a>
   </div>
-
+<br>
   <h1>Add a Review</h1>
   <form action="{% url 'add-review' media.id %}" method="post" class="subsection-content" autocomplete="off">
     {% csrf_token %}
     {{ review_form.as_p }}
+    <br>
     <button type="submit" class="btn submit">Add Review</button>
     <table>
       <thead>

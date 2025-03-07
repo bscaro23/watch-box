@@ -1,32 +1,40 @@
+/* static/css/form.css */
+
 .form-container {
     display: flex;
     flex-direction: column;
     width: 100%;
   }
   
-  table {
-    padding: 0 40px;
-    width: 100%;
-    border-spacing: 0 20px;
-  }
-  
   th {
     text-align: left;
-    padding: 6px 20px 0 0;
-    font-weight: normal;
+    padding: 4px 15px;
+    font-weight: bold;
     vertical-align: top;
-    font-size: var(--font-reg);
-  }
-  
-  td {
+    font-size: var(--font-l);
+    color: #333;
+}
+
+td {
     max-width: 60%;
-  }
-  
-  td > * {
+    padding: 4px 15px;
+    font-size: var(--font-reg);
+}
+
+td > * {
     width: 100%;
     padding: 2px 4px;
-    font-size: var(--font-l);
-  }
+    font-size: var(--font-reg);
+}
+
+table thead tr th {
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+}
+
+table tbody tr td {
+    border-bottom: 1px solid #eee; 
+}
   
   td > textarea {
     height: calc(4 * var(--font-l) + 8px);
