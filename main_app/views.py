@@ -75,7 +75,7 @@ class MediaCreate(LoginRequiredMixin, CreateView):
 class MediaUpdate(LoginRequiredMixin, UpdateView):
     model = Media
     fields = ['location', 'rating', 'is_viewed']
-
+    template_name = 'media/update_form.html'
     def form_valid(self, form):
         return super().form_valid(form)
 

@@ -1,0 +1,18 @@
+<!-- main_app/templates/media/update_form.html -->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="form-container">
+    <h1 class="page-header">Update Media</h1>
+    <form method="post" class="styled-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="form-actions">
+            <button type="submit" class="btn submit">Save Changes</button>
+            <a href="{% url 'media-detail' object.id %}" class="btn secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
