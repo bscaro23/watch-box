@@ -1,6 +1,6 @@
 ## WatchBox
 
-![User Homepage](static/images/Screenshot.png)
+![User Homepage](main_app/static/images/Screenshot.png)
 
 
 
