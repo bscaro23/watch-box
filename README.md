@@ -1,5 +1,9 @@
 ## WatchBox
 
+![User Homepage](static/images/Screenshot.png)
+
+
+
 **WatchBox** is a Python-Django-PostgreSQL web application that allows users to keep track of their favorite shows and movies. Users can add media, rate them, and leave reviews & update (CRUD) It provides a clean and organized interface to manage and browse a personalized collection. 
 
 ##  Features & Functionality
