@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 from pathlib import Path
-from decouple import config
 from dotenv import load_dotenv
 import os
 
@@ -30,6 +29,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
+
+OMDB_API_KEY = os.getenv("OMDB_API_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if not 'ON_HEROKU' in os.environ:
@@ -130,16 +131,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+STATIC_URL = "static/"
+
+# Add this line of code
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
 LOGIN_URL = 'home'
 
-OMDB_API_KEY = config("OMDB_API_KEY")
 
 LOGOUT_REDIRECT_URL = 'home'
 
