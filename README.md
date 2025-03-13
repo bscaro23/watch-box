@@ -33,6 +33,8 @@ You can sign up for a free account and start your media list by entering the tit
 You are able to manage your watchlist by adding new movies, editing information about movies already in the list, and deleting any movies you no longer wish to keep. Additionally, you can mark movies as watched to help you track your progress.
 Get started now and never lose track of your favourite films again! 
 ## Deployment Link
+
+https://watch-box-15998abff2e6.herokuapp.com/
 ---
 ## Timeline of Creation
 ## Python and Django Setup
